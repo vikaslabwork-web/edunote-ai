@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduNote AI - Transform lectures into concise summaries and keyword notes. Smart lecture summarizer for students and educators.">
+  <meta name="keywords" content="lecture notes, AI summary, education, study tool, keyword extraction">
+  <meta name="author" content="EduNote AI">
+  <title>EduNote AI - Smart Lecture Summarizer & Keyword Notes Generator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">📚</span>
+          <span>EduNote AI</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Transform Lectures into Smart Notes</h1>
+      <p class="hero-description">
+        Convert lecture text, PDFs, and YouTube videos into concise summaries and keyword-based notes powered by AI
+      </p>
+      <div class="hero-features">
+        <div class="feature-item">
+          <span class="feature-icon">📝</span>
+          <span>Instant Summaries</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🔑</span>
+          <span>Key Topics Extraction</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">⚡</span>
+          <span>Fast & Accurate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <!-- Input Section -->
+      <section class="input-section">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Generate Your Notes</h2>
+            <p class="card-subtitle">Choose your input method and let AI create comprehensive notes for you</p>
+          </div>
+
+          <!-- Tab Navigation -->
+          <div class="input-tabs" role="tablist">
+            <button class="tab-button active" data-tab="text" role="tab" aria-selected="true" aria-controls="text-panel">
+              📝 Paste Text
+            </button>
+            <button class="tab-button" data-tab="pdf" role="tab" aria-selected="false" aria-controls="pdf-panel">
+              📄 Upload PDF
+            </button>
+            <button class="tab-button" data-tab="youtube" role="tab" aria-selected="false" aria-controls="youtube-panel">
+              🎥 YouTube Link
+            </button>
+          </div>
+
+          <!-- Tab Content: Text Input -->
+          <div id="text-panel" class="tab-content active" role="tabpanel" data-content="text">
+            <form id="text-form" class="form-group">
+              <label for="text-input" class="form-label">Paste your lecture text or notes</label>
+              <textarea 
+                id="text-input" 
+                class="form-textarea" 
+                placeholder="Paste your lecture content here..."
+                aria-describedby="text-helper"
+              ></textarea>
+              <span id="text-helper" class="form-helper">Enter the full text from your lecture or study material</span>
+            </form>
+          </div>
+
+          <!-- Tab Content: PDF Upload -->
+          <div id="pdf-panel" class="tab-content" role="tabpanel" data-content="pdf">
+            <form id="pdf-form" class="form-group">
+              <label for="pdf-input" class="form-label">Upload a PDF document</label>
+              <div class="file-upload">
+                <input 
+                  type="file" 
+                  id="pdf-input" 
+                  class="file-upload-input" 
+                  accept=".pdf,.docx"
+                  aria-describedby="pdf-helper"
+                >
+                <label for="pdf-input" class="file-upload-label">
+                  <span class="file-upload-icon">📁</span>
+                  <div>
+                    <div>Click to upload or drag and drop</div>
+                    <div style="font-size: 0.875rem; color: #9CA3AF; margin-top: 0.25rem;">PDF or DOCX files only (Max 10MB)</div>
+                  </div>
+                </label>
+              </div>
+              <span id="pdf-file-name" class="file-name"></span>
+              <span id="pdf-helper" class="form-helper">Upload lecture slides, notes, or any educational PDF</span>
+            </form>
+          </div>
+
+          <!-- Tab Content: YouTube Link -->
+          <div id="youtube-panel" class="tab-content" role="tabpanel" data-content="youtube">
+            <form id="youtube-form" class="form-group">
+              <label for="youtube-input" class="form-label">YouTube video URL</label>
+              <input 
+                type="url" 
+                id="youtube-input" 
+                class="form-input" 
+                placeholder="https://www.youtube.com/watch?v=..."
+                aria-describedby="youtube-helper"
+              >
+              <span id="youtube-helper" class="form-helper">Enter the URL of an educational YouTube video</span>
+            </form>
+          </div>
+
+          <!-- Generate Button -->
+          <button id="generate-btn" class="btn btn-primary btn-lg btn-block">
+            <span id="btn-text">Generate Notes</span>
+            <span id="btn-spinner" class="spinner hidden"></span>
+          </button>
+
+          <!-- Alert Messages -->
+          <div id="alert-container"></div>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section id="results-section" class="results">
+        <div class="results-grid">
+          <!-- Summary Card -->
+          <div class="result-card">
+            <div class="result-card-header">
+              <span class="result-icon">📋</span>
+              <h3 class="result-title">Summary</h3>
+            </div>
+            <div id="summary-content" class="result-content"></div>
+            <div class="action-buttons">
+              <button id="copy-summary-btn" class="btn btn-secondary">
+                📋 Copy Summary
+              </button>
+            </div>
+          </div>
+
+          <!-- Keywords Card -->
+          <div class="result-card">
+            <div class="result-card-header">
+              <span class="result-icon">🔑</span>
+              <h3 class="result-title">Key Topics</h3>
+            </div>
+            <div id="keywords-container" class="keywords-list"></div>
+            <div class="action-buttons mt-6">
+              <button id="copy-keywords-btn" class="btn btn-secondary">
+                📋 Copy Keywords
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Download Buttons -->
+        <div class="text-center">
+          <button id="download-pdf-btn" class="btn btn-primary btn-lg">
+            📥 Download PDF
+          </button>
+          <button id="download-docx-btn" class="btn btn-secondary btn-lg" style="margin-left: 10px;">
+            📄 Download DOCX
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- JavaScript - Use relative path -->
+  <script src="script.js"></script>
+</body>
+</html>
